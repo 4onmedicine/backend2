@@ -1,47 +1,28 @@
-import easyocr
-import json
-import re
-from env import DEBUG
+from flask import Flask, request, redirect, render_template, url_for, jsonify
+from env import FLASK_ENUM
+from modules.prescription import Prescription
+import requests
 
+app = Flask(__name__, static_url_path='/static')
 
-#GPU/CPU 모드 선택 가능
-reader = easyocr.Reader(['ko', 'en'], gpu=DEBUG.GPU)
-result = reader.readtext("src/img/prescription_1.jpeg")
+Final_Data = Prescription()
 
-json_result = []
+@app.route('/send_data', methods=['POST'])
+def send_data():
+    data = Final_Data.read_prescription()
 
-# 정규식 패턴: 8~9자리 숫자
-pattern = re.compile(r'\b\d{8,9}\b')
+    #배열 중복을 막기 위해서 다음과 같이 설정
+    unique_numbers = list(set(data))
 
-class Prescription:
+    url = 'http://localhost:8080/receive-data'
 
-    def __init__(self):
-        pass
-
-    def read_prescription(self):
-        # 약 품목 코드가 있는 경우 
-        for detection in result:
-            _, text, confidence = detection
-            if pattern.search(text):
-                json_result.append({
-                    'text': text,
-                    'confidence': confidence
-                })
-
-        json_output = json.dumps(json_result, ensure_ascii=False, indent=4)
-        print(json_output)
-
-        extracted_numbers = []
-
-        for item in json_result:
-            text = item['text']
-            match = pattern.search(text)
-            if match:
-                extracted_numbers.append(match.group())
-
-        print(extracted_numbers)
-
-        return extracted_numbers
-
-test = Prescription()
-print(test.read_prescription())
+    print(url)
+    response = requests.post(url, json=unique_numbers)
+    
+    if response.headers['Content-Type'] == 'application/json':
+        return jsonify(response.json())
+    else:
+        return response.text
+    
+if __name__ == '__main__':
+    app.run('0.0.0.0', debug=True, port=FLASK_ENUM.PORT)
