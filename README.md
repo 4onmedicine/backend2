@@ -1,5 +1,11 @@
 # 백엔드 - 파이썬 파트
 
+## 👨‍💻 Acting
+![스크린샷 2024-07-24 오후 11 30 15](https://github.com/user-attachments/assets/1effaf0f-401d-459c-8573-90ab8ca4c1e1)
+
+https://github.com/user-attachments/assets/fbb95002-b106-4a62-b26b-f45d6d5834b0
+
+
 ## Python환경에서 처방전 이미지 OCR 처리 (-> modules/prescription.py)
 <pre><code>import easyocr
 import json
@@ -50,7 +56,10 @@ test = Prescription()
 print(test.read_prescription())</code></pre>
 
 
+## 💊 처방전 분류하기 
 
+<h4>1. 보험번호(이하, 약 번호)가 있으면 숫자 추출 <br></h4>
+<h4>2. 보험번호(이하, 약 번호)가 없다면 글자 추출 </h4>
 
 ## ⚡️ spring <-> Flask 
 
