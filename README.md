@@ -61,6 +61,9 @@ print(test.read_prescription())</code></pre>
 <h4>1. 보험번호(이하, 약 번호)가 있으면 숫자 추출 <br></h4>
 <h4>2. 보험번호(이하, 약 번호)가 없다면 글자 추출 </h4>
 
+<img width="1185" alt="스크린샷 2024-07-25 오전 12 31 30" src="https://github.com/user-attachments/assets/783fa9ee-3cf8-44d1-b7b5-3cbb8a4b73b9">
+
+<h4>코드 정리중...</h4>
 ## ⚡️ spring <-> Flask 
 
 <h3>[Flask에서 5133번 포트로 POST 요청]</h3>
