@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>처방전 업로드창</title>
+</head>
+<body>
+    <h1>처방전을 업로드해보세요!</h1>
+    <h3>최대 16MB까지 업로드가 가능합니다.</h3>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file">업로드 할 처방전을 선택하세요.</label>
+        <input type="file" id="file" name="file" required>
+        <button type="submit">업로드</button>
+    </form>
+    
+    {% if request.args.get('message') %}
+        <p>{{ request.args.get('message') }}</p>
+        <p>추출된 약 번호 : {{text}}</p>
+    {% endif %}
+</body>
+</html>

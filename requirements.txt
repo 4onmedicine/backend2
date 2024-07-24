@@ -1,3 +1,5 @@
 easyocr==1.7.1
 python-bidi==0.4.2
 request==2.32.3
+pydantic==2.20.1
+openai==1.37.0

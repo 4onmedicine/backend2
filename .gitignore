@@ -2,3 +2,5 @@ src/img/*
 env.py
 *__pycache__
 *.DS_Store
+
+/uploads/*
