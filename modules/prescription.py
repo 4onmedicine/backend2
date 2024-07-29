@@ -22,8 +22,6 @@ class Prescription:
         print("파일경로")
         print(self.filename)
         result = reader.readtext(self.filename)
-        
-        #print(result)
 
         #약 품목 코드가 없는 경우 
         include_keywords = ['정', '캡슐', '약', '정제']
@@ -63,8 +61,5 @@ class Prescription:
 
         print(extracted_numbers)
 
-        return extracted_numbers
+        return [filtered_data, extracted_numbers]
 
-
-#test = Prescription()
-#print(test.read_prescription())

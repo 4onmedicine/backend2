@@ -31,12 +31,13 @@ Final_Data = Prescription()
 def send_data(data):
 
     #배열 중복을 막기 위해서 다음과 같이 설정
-    unique_numbers = list(set(data))
+    filtered_data, extracted_numbers = data
+    unique_numbers = list(set(filtered_data + extracted_numbers))
 
     url = 'http://localhost:8080/receive-data'
 
     print(url)
-    response = requests.post(url, json=unique_numbers)
+    response = requests.post(url, json={'data': unique_numbers})
     
     if response.headers['Content-Type'] == 'application/json':
         return jsonify(response.json())
@@ -95,7 +96,7 @@ def upload_file():
             #Spring으로 전달을 위해서 /send_data 호출.
             response_message = send_data(data)
 
-            unique_numbers = list(set(data))
+            unique_numbers = list(set(data[0] + data[1]))
             session['text'] = unique_numbers
 
             
