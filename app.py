@@ -39,9 +39,9 @@ def send_data(data):
     print(url)
     response = requests.post(url, json={'data': unique_numbers})
     
-    if response.headers['Content-Type'] == 'application/json':
-        return jsonify(response.json())
-    else:
+    try:
+        return response.json()
+    except ValueError:
         return response.text
     
 
@@ -75,6 +75,46 @@ def index():
     text = session.get('text', '')
     return render_template('index.html',text=text)
 
+@app.route('/upload_flask', methods=['POST'])
+def upload_flask():
+    if 'file' not in request.files:
+        return jsonify({"message": 'No file part'}), 400
+    
+    file = request.files['file']
+    
+    if file.filename == '':
+        return jsonify({"message": 'No selected file'}), 400
+    
+    if file and file.filename.lower().endswith(('png', 'jpg', 'jpeg', 'gif')):
+        filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(filename)
+        
+        # 이미지 처리 로직 추가
+        print(jsonify({"message": f'File successfully uploaded: {filename}'}))
+    
+
+     #업로드 된 처방전을 prescription.py로 호출.
+        try:
+            data = Final_Data.read_prescription(filename)
+            
+            #Spring으로 전달을 위해서 /send_data 호출.
+            response_message = send_data(data)
+
+            unique_numbers = list(set(data[0] + data[1]))
+            session['text'] = unique_numbers
+
+            
+            
+            return jsonify({"message": f'File successfully uploaded: {filename}', "response_message": response_message})
+        
+        except Exception as e:
+            return jsonify({"message": f'파일 처리 중 오류 발생: {str(e)}'}), 500
+    
+    return jsonify({"message": '잘못된 파일입니다. 다시 시도하세요!'}), 400
+
+
+'''
+#index.html 백엔드 테스트 전용
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -107,6 +147,7 @@ def upload_file():
             return redirect(url_for('index', message=f'파일 처리 중 오류 발생: {str(e)}'))
     
     return redirect(url_for('index', message='잘못된 파일입니다. 다시 시도하세요!'))
+'''
 
 if __name__ == '__main__':
     app.run('0.0.0.0', debug=True, port=FLASK_ENUM.PORT)
