@@ -32,18 +32,14 @@ def send_data(data):
 
     #배열 중복을 막기 위해서 다음과 같이 설정
     filtered_data, extracted_numbers = data
-    unique_numbers = list(set(filtered_data + extracted_numbers))
+    unique_numbers = list(set(filtered_data))
 
     url = 'http://localhost:8080/receive-data'
 
     print(url)
     response = requests.post(url, json={'data': unique_numbers})
     
-    try:
-        return response.json()
-    except ValueError:
-        return response.text
-    
+    return response.text
 
 
 @app.route("/chat", methods=["POST"])

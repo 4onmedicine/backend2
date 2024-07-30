@@ -61,5 +61,5 @@ class Prescription:
 
         print(extracted_numbers)
 
-        return [filtered_data, extracted_numbers]
+        return [extracted_numbers,filtered_data]
 
