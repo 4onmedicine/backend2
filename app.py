@@ -53,6 +53,9 @@ def chat():
 
     try:
         data = request.get_json()
+        if isinstance(data.get('message'), list):
+            data['message'] = ' '.join(data['message'])  # 리스트를 문자열로 변환
+        print(data)
         chat_request = ChatRequest(**data)
     except (TypeError, ValidationError) as e:
         return jsonify({"detail": str(e)}), 400
@@ -113,8 +116,8 @@ def upload_flask():
     return jsonify({"message": '잘못된 파일입니다. 다시 시도하세요!'}), 400
 
 
-'''
-#index.html 백엔드 테스트 전용
+
+#index.html 백엔드 테스트 전용 -> PostMan 대체 코드 
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -147,7 +150,7 @@ def upload_file():
             return redirect(url_for('index', message=f'파일 처리 중 오류 발생: {str(e)}'))
     
     return redirect(url_for('index', message='잘못된 파일입니다. 다시 시도하세요!'))
-'''
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', debug=True, port=FLASK_ENUM.PORT)
