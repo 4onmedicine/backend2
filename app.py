@@ -147,10 +147,10 @@ def upload_flask():
                 return jsonify({"error": f"Failed to parse unique data: {str(e)}"}), 400
             
           
-            insurance_codes = [item['insurance_code'] for item in unique_data if 'insurance_code' in item]
+            insurance_codes = [item['data'] for item in unique_data if 'data' in item]
             
     
-            return jsonify({"insurance_codes": insurance_codes})
+            return jsonify({"data": insurance_codes})
         
         except Exception as e:
             # 처리 중 예외 발생 시 오류 메시지 반환

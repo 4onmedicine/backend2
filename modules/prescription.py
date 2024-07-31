@@ -41,7 +41,7 @@ class Prescription:
             match = self.pattern.search(text)
             if match:
                 json_result.append({
-                    'insurance_code': match.group()
+                    'data': match.group()
                 })
 
         # 원하는 형식으로 출력
