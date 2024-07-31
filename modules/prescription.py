@@ -3,13 +3,10 @@ import json
 import re
 from env import DEBUG
 
-
-#GPU/CPU 모드 선택 가능
+# GPU/CPU 모드 선택 가능
 reader = easyocr.Reader(['ko', 'en'], gpu=DEBUG.GPU)
 
-
 json_result = []
-
 
 class Prescription:
 
@@ -23,43 +20,35 @@ class Prescription:
         print(self.filename)
         result = reader.readtext(self.filename)
 
-        #약 품목 코드가 없는 경우 
+        # 약 품목 코드가 없는 경우 
         include_keywords = ['정', '캡슐', '약', '정제']
-        exclude_keywords = ['복약안내', '약제비', '환자정보', '조제약사','노란색 정제','하얀색 정제','약국','의원','병원','흰색 정제','노랑색 정제','약품명','주의사항','약품사진','항갈색 정제']
-
+        exclude_keywords = ['복약안내', '약제비', '환자정보', '조제약사', '노란색 정제', '하얀색 정제', '약국', '의원', '병원', '흰색 정제', '노랑색 정제', '약품명', '주의사항', '약품사진', '항갈색 정제']
 
         filtered_data = []
 
         # 약물 정보를 필터링하여 저장할 리스트
         for bbox, text, confidence in result:
-        # 제외할 키워드가 포함되어 있지 않고, 포함할 키워드가 포함되어 있는 경우에만 추가
+            # 제외할 키워드가 포함되어 있지 않고, 포함할 키워드가 포함되어 있는 경우에만 추가
             if not any(exclude_keyword in text for exclude_keyword in exclude_keywords) and \
             any(include_keyword in text for include_keyword in include_keywords):
-                filtered_data.append((text))
+                filtered_data.append(text)
 
         print(filtered_data)
 
         # 약 품목 코드가 있는 경우 
         for detection in result:
             _, text, confidence = detection
-            if self.pattern.search(text):
-                json_result.append({
-                    'text': text,
-                    'confidence': confidence
-                })
-
-        json_output = json.dumps(json_result, ensure_ascii=False, indent=4)
-        print(json_output)
-
-        extracted_numbers = []
-
-        for item in json_result:
-            text = item['text']
             match = self.pattern.search(text)
             if match:
-                extracted_numbers.append(match.group())
+                json_result.append({
+                    'insurance_code': match.group()
+                })
 
-        print(extracted_numbers)
+        # 원하는 형식으로 출력
+        json_output = json.dumps({
+            "response_message": json_result
+        }, ensure_ascii=False, indent=4)
 
-        return [extracted_numbers,filtered_data]
+        print(json_output)
 
+        return json_output
