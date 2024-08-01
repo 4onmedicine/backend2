@@ -51,7 +51,7 @@ def send_data():
             
         print("Received data:", filtered_data)
 
-        url = 'http://localhost:8080/receive-data'
+        url = 'https://4onmserver.kro.kr/receive-data'
         headers = {'Content-Type': 'application/json'}
         
         unique_data = list({json.dumps(d) for d in parsed_data})
