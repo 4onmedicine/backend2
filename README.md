@@ -1,9 +1,13 @@
 # 백엔드 - 파이썬 파트
 
 ## 👨‍💻 Acting
-![스크린샷 2024-07-24 오후 11 30 15](https://github.com/user-attachments/assets/1effaf0f-401d-459c-8573-90ab8ca4c1e1)
+<h3>처방전 이미지에서 '보험코드' 만을 추출하여 검색</h3>
+<h4>PostMan에서 form-data 파일형식으로 Flask에서 OCR변환후 Spring 서버에 전송</h4>
+<img width="915" alt="스크린샷 2024-08-01 오전 8 48 08" src="https://github.com/user-attachments/assets/caa90151-17c5-444b-b966-5e20235b169d">
 
-https://github.com/user-attachments/assets/fbb95002-b106-4a62-b26b-f45d6d5834b0
+<h3>추출된 '보험코드'를 통해서 약품 정보 검색</h3>
+<h4>PostMan에서 Json타입으로 data 전송</h4>
+<img width="879" alt="스크린샷 2024-08-01 오전 8 50 58" src="https://github.com/user-attachments/assets/494872e5-c72c-4aa0-9ea1-8c6e5d8cf3e9">
 
 
 ## Python환경에서 처방전 이미지 OCR 처리 (-> modules/prescription.py)
