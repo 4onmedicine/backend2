@@ -54,7 +54,9 @@ def send_data():
         url = 'https://4onmserver.kro.kr/receive-data'
         headers = {'Content-Type': 'application/json'}
         
-        unique_data = list({json.dumps(d) for d in parsed_data})
+        # JSON 객체를 문자열로 변환하며 중복 제거
+        unique_data_set = {json.dumps(d, sort_keys=True) for d in parsed_data}
+        unique_data = [json.loads(d) for d in unique_data_set]
         print("Filtered data:", unique_data)
 
         # 'data' 키를 사용하여 JSON 데이터 전송
@@ -123,9 +125,10 @@ def upload_flask():
         file.save(filename)
 
         try:
+            print(filename)
             json_output = Final_Data.read_prescription(filename)
         
-            
+                
             try:
                 data = json.loads(json_output)
             except json.JSONDecodeError as e:
@@ -156,8 +159,6 @@ def upload_flask():
             # 처리 중 예외 발생 시 오류 메시지 반환
             return jsonify({"error": str(e)}), 500
 
-
-
 # index.html 백엔드 테스트 전용 -> PostMan 대체 코드 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -174,6 +175,7 @@ def upload_file():
         file.save(filename)
         
         try:
+            print(filename)
             data = Final_Data.read_prescription(filename)
             
             # Spring 서버로 전달

@@ -6,8 +6,6 @@ from env import DEBUG
 # GPU/CPU 모드 선택 가능
 reader = easyocr.Reader(['ko', 'en'], gpu=DEBUG.GPU)
 
-json_result = []
-
 class Prescription:
 
     def __init__(self):
@@ -34,6 +32,8 @@ class Prescription:
                 filtered_data.append(text)
 
         print(filtered_data)
+
+        json_result = []
 
         # 약 품목 코드가 있는 경우 
         for detection in result:
